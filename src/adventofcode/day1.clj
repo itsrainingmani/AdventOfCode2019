@@ -1,21 +1,31 @@
 (ns adventofcode.day1
-  (:require [clojure.string :as str])
+  (:require [adventofcode.utils :as utils])
   (:gen-class))
 
 (defn -main
-  [& args]
+  []
   (println "Advent of Code 2019 - Day 1"))
 
-(def input-file "data/day1.txt")
+(defn fuel-math [fuel]
+  (-> fuel
+      (/ 3)
+      int
+      (- 2)))
 
-(defn get-input []
-  (str/split-lines (slurp input-file)))
+(defn calc-intermediate-fuel [fuel]
+  (loop [inter-fuel (list fuel)]
+    ;; (println inter-fuel)
+    (if (<= (first inter-fuel) 0)
+      (->> inter-fuel
+           (filter #(> % 0))
+           reverse
+           rest
+           (reduce +))
+      (recur (conj inter-fuel (fuel-math (first inter-fuel)))))))
 
 (defn calc-weight []
-  (let [inp (get-input)]
+  (let [inp (utils/get-input)]
     (->> inp
          (map #(Integer/parseInt %))
-         (map #(/ % 3))
-         (map int)
-         (map #(- % 2))
+         (map calc-intermediate-fuel)
          (reduce +))))
