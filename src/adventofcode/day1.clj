@@ -24,8 +24,7 @@
       (recur (conj inter-fuel (fuel-math (first inter-fuel)))))))
 
 (defn calc-weight []
-  (let [inp (utils/get-input)]
+  (let [inp (utils/convert-num (utils/get-input))]
     (->> inp
-         (map #(Integer/parseInt %))
          (map calc-intermediate-fuel)
          (reduce +))))
