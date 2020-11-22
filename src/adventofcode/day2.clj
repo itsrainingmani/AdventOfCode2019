@@ -28,11 +28,11 @@
           99 (first program))))))
 
 (defn input-pair []
-  (let [pairs (for [noun (range 99)
-                    verb (range 99)]
-                [noun verb])]
-    (loop [curpos 0]
-      (if (= 19690720 (intcode (nth pairs curpos)))
-        (nth pairs curpos)
-        (recur (inc curpos))))))
+  (loop [noun 0
+         verb 0]
+    (if (= 19690720 (intcode [noun verb]))
+      [noun verb]
+      (if (= 99 verb)
+        (recur (inc noun) 0)
+        (recur noun (inc verb))))))
 ;; [67 18]
